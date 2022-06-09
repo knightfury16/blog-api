@@ -17,7 +17,8 @@ app.post('/users', async (req: Request, res: Response) => {
     const user = User.create(req.body);
     await validateOrReject(user, { skipMissingProperties: true });
     await user.save();
-    res.status(201).send(user);
+    const token = await user.generateAuthToken();
+    res.status(201).send({ user, token });
   } catch (error: any) {
     console.log(error);
     res.send(400);
