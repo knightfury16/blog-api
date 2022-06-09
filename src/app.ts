@@ -44,6 +44,15 @@ app.post('/users/logout', auth, async (req: Request, res: Response) => {
   }
 });
 
+app.post('/users/logoutAll', auth, async (req: Request, res: Response) => {
+  try {
+    await Token.delete({ ownerId: req.user.id });
+    res.status(200).send('Logout from the device');
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
 app.get('/users/me', auth, (req: Request, res: Response) => {
   res.send(req.user);
 });
