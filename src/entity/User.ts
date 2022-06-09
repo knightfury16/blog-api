@@ -8,14 +8,16 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BaseEntity,
-  BeforeInsert
+  BeforeInsert,
+  BeforeUpdate
 } from 'typeorm';
+import { myDataSource } from '../app-data-source';
 import { IUser } from '../types/IUser';
 import { Blog } from './Blog';
 import { Token } from './Token';
 
 @Entity()
-export class User extends BaseEntity implements IUser {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -29,7 +31,8 @@ export class User extends BaseEntity implements IUser {
 
   @Column({
     type: 'text',
-    nullable: true
+    nullable: true,
+    select: false
   })
   @IsNotEmpty()
   @MinLength(7)
@@ -59,8 +62,10 @@ export class User extends BaseEntity implements IUser {
   tokens: Token[];
 
   @BeforeInsert()
+  @BeforeUpdate()
   async encryptPassword() {
-    this.password = await bcrypt.hash(this.password, 8);
+    // console.log(this);
+    if (this.password) this.password = await bcrypt.hash(this.password, 8);
   }
 
   toJSON() {
@@ -78,10 +83,16 @@ export class User extends BaseEntity implements IUser {
   }
 
   static async findByCredentials(email: string, password: string) {
-    const user = await this.findOneBy({ email });
+    // const user = await this.findOneBy({ email });
+    const user = await this.createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email= :email', { email })
+      .getOne();
+
     if (!user) {
       throw new Error('Unable to login!');
     }
+    // console.log(user);
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {

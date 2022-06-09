@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import { Token } from '../entity/Token';
 import { User } from '../entity/User';
 import auth from '../middleware/auth';
+import { IUser } from '../types/IUser';
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.post('/users', async (req: Request, res: Response) => {
     res.status(201).send({ user, token });
   } catch (error: any) {
     console.log(error);
-    res.send(400);
+    res.status(400).send(error);
   }
 });
 
@@ -34,7 +35,7 @@ router.post('/users/login', async (req: Request, res: Response) => {
     res.status(200).send({ user, token });
   } catch (error: any) {
     console.log(error);
-    res.status(400).send();
+    res.status(400).send(error);
   }
 });
 
@@ -73,6 +74,30 @@ router.post('/users/logoutAll', auth, async (req: Request, res: Response) => {
  */
 router.get('/users/me', auth, (req: Request, res: Response) => {
   res.send(req.user);
+});
+
+/**
+ * *Edit user profile
+ * !Authenticated
+ * -PATCH(/users/me)
+ */
+router.patch('/users/me', auth, async (req: any, res: Response) => {
+  const updates: string[] = Object.keys(req.body);
+  const allowedUpdates = ['name', 'email', 'password', 'age'];
+  const isValid = updates.every(item => allowedUpdates.includes(item));
+
+  if (!isValid) return res.status(400).send({ error: 'Invalid Updates!' });
+
+  try {
+    updates.forEach(update => {
+      req.user[update] = req.body[update];
+    });
+    await validateOrReject(req.user, { skipMissingProperties: true });
+    await req.user.save();
+    res.status(200).send(req.user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 export default router;
