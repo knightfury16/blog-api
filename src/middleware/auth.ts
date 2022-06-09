@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { Token } from '../entity/Token';
 import { User } from '../entity/User';
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,6 +13,12 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (!user) throw new Error();
+
+    const tokens = await Token.find({ where: { ownerId: user.id } });
+
+    const tokenMatch = tokens.filter(dbToken => dbToken.token === token);
+
+    if (tokenMatch.length === 0) throw new Error();
 
     req.token = token;
     req.user = user;
