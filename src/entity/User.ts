@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { IUser } from '../types/IUser';
 import { Blog } from './Blog';
+import { Token } from './Token';
 
 @Entity()
 export class User extends BaseEntity implements IUser {
@@ -54,6 +55,9 @@ export class User extends BaseEntity implements IUser {
   @OneToMany(() => Blog, blog => blog.owner)
   blogs: Blog[];
 
+  @OneToMany(() => Token, token => token.owner)
+  tokens: Token[];
+
   @BeforeInsert()
   async encryptPassword() {
     this.password = await bcrypt.hash(this.password, 8);
@@ -69,6 +73,7 @@ export class User extends BaseEntity implements IUser {
       _id: user.id
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET as jwt.Secret);
+    await Token.create({ token, ownerId: user.id }).save();
     return token;
   }
 
