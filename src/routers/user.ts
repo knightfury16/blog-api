@@ -3,7 +3,6 @@ import express, { Request, Response } from 'express';
 import { Token } from '../entity/Token';
 import { User } from '../entity/User';
 import auth from '../middleware/auth';
-import { IUser } from '../types/IUser';
 
 const router = express.Router();
 

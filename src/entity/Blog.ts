@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator';
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './User';
 
@@ -6,10 +7,18 @@ export class Blog extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    length: 500
+  })
+  @IsNotEmpty()
   title: string;
 
-  @Column()
+  @Column({
+    type: 'text',
+    nullable: true
+  })
+  @IsNotEmpty()
   description: string;
 
   @Column()
