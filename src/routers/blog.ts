@@ -59,4 +59,23 @@ router.get('/blogs/:id', async (req: Request, res: Response) => {
     res.status(500).send();
   }
 });
+
+/**
+ * *Delete blog
+ * !Authenticated
+ * -DELETE(/blogs/:id)
+ */
+router.delete('/blogs/:id', auth, async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  try {
+    const blog = await Blog.findOneBy({ id });
+    if (!blog) return res.status(404).send();
+    if (blog.ownerId != req.user.id) return res.status(401).send();
+    await Blog.delete({ id });
+    res.status(200).send();
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
 export default router;
