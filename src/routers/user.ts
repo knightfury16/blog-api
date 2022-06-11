@@ -46,7 +46,7 @@ router.post('/users/login', async (req: Request, res: Response) => {
 router.post('/users/logout', auth, async (req: Request, res: Response) => {
   try {
     await Token.delete({ ownerId: req.user.id, token: req.token });
-    res.send('Logout');
+    res.send('Logged out');
   } catch (error) {
     res.status(500).send();
   }
@@ -60,7 +60,7 @@ router.post('/users/logout', auth, async (req: Request, res: Response) => {
 router.post('/users/logoutAll', auth, async (req: Request, res: Response) => {
   try {
     await Token.delete({ ownerId: req.user.id });
-    res.status(200).send('Logout from the device');
+    res.status(200).send('Logged out from all the device');
   } catch (error) {
     res.status(500).send();
   }
