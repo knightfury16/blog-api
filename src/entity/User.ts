@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import { IsEmail, IsNotEmpty, IsPositive, MinLength } from 'class-validator';
 import * as jwt from 'jsonwebtoken';
-import { stringify } from 'querystring';
 import {
   Entity,
   Column,
@@ -9,10 +8,10 @@ import {
   OneToMany,
   BaseEntity,
   BeforeInsert,
-  BeforeUpdate
+  BeforeUpdate,
+  CreateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
-import { myDataSource } from '../app-data-source';
-import { IUser } from '../types/IUser';
 import { Blog } from './Blog';
 import { Token } from './Token';
 
@@ -54,6 +53,12 @@ export class User extends BaseEntity {
   })
   @IsPositive()
   age: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @OneToMany(() => Blog, blog => blog.owner)
   blogs: Blog[];
