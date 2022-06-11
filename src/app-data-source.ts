@@ -5,6 +5,17 @@ import { Token } from './entity/Token';
 import { User } from './entity/User';
 
 export const myDataSource = new DataSource({
+  type: 'postgres',
+  host: process.env.DATABASE_HOST,
+  port: +process.env.DATABASE_PORT!,
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  entities: [User, Blog, Token],
+  logging: true,
+  synchronize: true
+});
+export const myDataSource2 = new DataSource({
   type: 'mysql',
   host: process.env.DATABASE_HOST,
   port: +process.env.DATABASE_PORT!,
@@ -12,6 +23,6 @@ export const myDataSource = new DataSource({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   entities: [User, Blog, Token],
-  logging: false,
+  logging: true,
   synchronize: true
 });
