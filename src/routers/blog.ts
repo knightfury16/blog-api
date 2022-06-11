@@ -45,4 +45,18 @@ router.get('/blogs', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * *Get blog by id
+ * -GET(/blogs/:id)
+ */
+router.get('/blogs/:id', async (req: Request, res: Response) => {
+  const _id = parseInt(req.params.id);
+  try {
+    const blog = await Blog.findOneBy({ id: _id });
+    if (!blog) return res.status(404).send();
+    res.send(blog);
+  } catch (error) {
+    res.status(500).send();
+  }
+});
 export default router;
