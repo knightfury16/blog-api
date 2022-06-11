@@ -5,6 +5,11 @@ import auth from '../middleware/auth';
 
 const router = express.Router();
 
+/**
+ * *Create new blog for login user
+ * !Authenticated
+ * -POST(/blogs/create)
+ */
 router.post('/blogs/create', auth, async (req: Request, res: Response) => {
   const blog = Blog.create({
     ...req.body,
@@ -19,13 +24,18 @@ router.post('/blogs/create', auth, async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * *Get most recent 10 blogs my deafult
+ * -GET(/blogs) get most recent 10 blogs
+ * -GET(/blogs?limit=2&skip=2) get only recent two blogs and skip 2 blogs
+ */
 router.get('/blogs', async (req: Request, res: Response) => {
-  const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
   const skip = req.query.skip ? parseInt(req.query.skip as string) : undefined;
 
   try {
     const blogs = await Blog.createQueryBuilder('blog')
-      .orderBy('blog.id', 'DESC')
+      .orderBy('blog.createdAt', 'DESC')
       .skip(skip)
       .take(limit)
       .getMany();
