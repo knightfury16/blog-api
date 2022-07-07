@@ -83,9 +83,7 @@ Logout user from the current device
 POST /users/logout
 ```
 
-```http
-Authenticated
-```
+`Authenticated`
 
 - Response
 
@@ -108,9 +106,7 @@ Logout user from all the device
 POST /users/logoutAll
 ```
 
-```http
-Authenticated
-```
+`Authenticated`
 
 - Response
 
@@ -129,9 +125,7 @@ Get profile of the current user
 GET /users/me
 ```
 
-```http
-Authenticated
-```
+`Authenticated`
 
 - Response
 
@@ -163,9 +157,7 @@ Edit current user profile
 PATCH /users/me
 ```
 
-```http
-Authenticated
-```
+`Authenticated`
 
 - Response
 
@@ -195,9 +187,7 @@ Create new blog for login user
 POST /blogs/create
 ```
 
-```http
-Authenticated
-```
+`Authenticated`
 
 - Response
 
@@ -297,9 +287,7 @@ Delete a blog by id
 DELETE /blogs/:id
 ```
 
-```http
-Authenticated
-```
+`Authenticated`
 - Request
 
 ```json
