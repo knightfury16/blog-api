@@ -23,9 +23,9 @@ var makeReadme = function (apis, options) {
                     return "| `".concat(query.name, "` | `").concat(query.type, "` |").concat(query.required ? '**Required**' : '', " ").concat(query.description, "| ");
                 }).join('\n'));
         var method = '\n' + codeSnippet(templateObject_1 || (templateObject_1 = __makeTemplateObject(["http"], ["http"])))("".concat(api.method, " ").concat(api.endpoint));
-        var authenticated = api.authenticated ? '\n' + "`Authenticated`" : '';
-        var request = api.request && '- Request\n\n' + codeSnippet(templateObject_2 || (templateObject_2 = __makeTemplateObject(["json"], ["json"])))(JSON.stringify(api.request, null, 2));
-        var response = api.response && '- Response\n\n' + codeSnippet(templateObject_3 || (templateObject_3 = __makeTemplateObject(["json"], ["json"])))(JSON.stringify(api.response, null, 2));
+        var authenticated = api.authenticated ? '\n' + codeSnippet(templateObject_2 || (templateObject_2 = __makeTemplateObject(["diff"], ["diff"])))('+Authenticated+') : '';
+        var request = api.request && '- Request\n\n' + codeSnippet(templateObject_3 || (templateObject_3 = __makeTemplateObject(["json"], ["json"])))(JSON.stringify(api.request, null, 2));
+        var response = api.response && '- Response\n\n' + codeSnippet(templateObject_4 || (templateObject_4 = __makeTemplateObject(["json"], ["json"])))(JSON.stringify(api.response, null, 2));
         return [
             "### **".concat(api.name, "**"),
             api.description,
@@ -51,4 +51,4 @@ var makeReadme = function (apis, options) {
     }
 };
 exports.makeReadme = makeReadme;
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
