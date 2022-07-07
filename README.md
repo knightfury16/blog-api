@@ -84,7 +84,7 @@ POST /users/logout
 ```
 
 ```diff
-+Authenticated+
+!Authenticated!
 ```
 
 - Response
@@ -109,7 +109,7 @@ POST /users/logoutAll
 ```
 
 ```diff
-+Authenticated+
+!Authenticated!
 ```
 
 - Response
@@ -130,7 +130,7 @@ GET /users/me
 ```
 
 ```diff
-+Authenticated+
+!Authenticated!
 ```
 
 - Response
@@ -164,7 +164,7 @@ PATCH /users/me
 ```
 
 ```diff
-+Authenticated+
+!Authenticated!
 ```
 
 - Response
@@ -196,7 +196,7 @@ POST /blogs/create
 ```
 
 ```diff
-+Authenticated+
+!Authenticated!
 ```
 
 - Response
@@ -298,7 +298,7 @@ DELETE /blogs/:id
 ```
 
 ```diff
-+Authenticated+
+!Authenticated!
 ```
 - Request
 

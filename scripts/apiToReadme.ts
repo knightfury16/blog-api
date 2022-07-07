@@ -44,7 +44,7 @@ export const makeReadme = (apis: API[], options: Options = {}): string | void =>
 
       const method = '\n' + codeSnippet`http`(`${api.method} ${api.endpoint}`);
 
-      const authenticated = api.authenticated ? '\n' + codeSnippet`diff`('+Authenticated+') : '';
+      const authenticated = api.authenticated ? '\n' + codeSnippet`diff`('!Authenticated!') : '';
 
       const request =
         api.request && '- Request\n\n' + codeSnippet`json`(JSON.stringify(api.request, null, 2));
